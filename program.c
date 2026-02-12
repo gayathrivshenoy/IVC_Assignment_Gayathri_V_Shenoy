@@ -1,6 +1,6 @@
 #include <stdio.h>
 
 int main() {
-    printf("Hello GitHub from Gayathri!\n");
+    printf("Hello from Feature Branch!\n");
     return 0;
 }
