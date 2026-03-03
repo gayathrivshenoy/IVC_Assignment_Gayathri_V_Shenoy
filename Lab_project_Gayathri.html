@@ -1,0 +1,194 @@
+<!-- 
+Create a complete responsive mini project using HTML, CSS and JavaScript.
+
+Project Name: Student Task Manager
+
+Requirements:
+- Modern UI with clean design
+- Add new task with input field and button
+- Display tasks in a list
+- Mark task as completed
+- Delete task
+- Store tasks in localStorage so they remain after refresh
+- Use separate style section and script section
+- Add animations and hover effects
+- Make it mobile responsive
+- Add a header and footer
+- Use attractive colors and good font styling
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Task Manager</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: rgba(0,0,0,0.7);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background: rgba(255,255,255,0.8);
+            padding: 10px;
+        }
+
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 110px);
+            padding: 10px;
+            margin-right: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px;
+            background: #f8f9fa;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        li.completed {
+            text-decoration: line-through;
+            color: #6c757d;
+        }
+        .task-actions button {
+            margin-left: 5px;
+            background-color: #dc3545;
+        }
+        .task-actions button:hover {
+            background-color: #c82333;
+        }
+        footer {
+            background: rgba(0,0,0,0.7);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }  
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Student Task Manager</h1>
+    </header>
+
+    <div class="container">
+        <h2>Add New Task</h2>
+        <input type="text" id="taskInput" placeholder="Enter a new task...">
+        <button onclick="addTask()">Add Task</button>
+
+        <h2>Tasks</h2>
+        <ul id="taskList"></ul>
+    </div>
+
+    <footer>
+        <p>© 2023 Student Task Manager | Built with ❤️</p>
+    </footer>
+
+    <script>
+        // create complete task manager logic with:
+// - add task
+// - delete task
+// - mark complete
+// - use localStorage
+// - load tasks on page refresh
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+        function addTask() {
+            const taskInput = document.getElementById('taskInput');
+            const taskText = taskInput.value.trim();
+            if (taskText) {
+                const task = { text: taskText, completed: false };
+                tasks.push(task);
+                localStorage.setItem('tasks', JSON.stringify(tasks));
+                renderTasks();
+                taskInput.value = '';
+            }
+        }
+
+        function deleteTask(index) {
+            tasks.splice(index, 1);
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            renderTasks();
+        }
+
+        function toggleComplete(index) {
+            tasks[index].completed = !tasks[index].completed;
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            renderTasks();
+        }
+
+        function renderTasks() {
+            const taskList = document.getElementById('taskList');
+            taskList.innerHTML = '';
+            tasks.forEach((task, index) => {
+                const li = document.createElement('li');
+                li.className = task.completed ? 'completed' : '';
+                li.innerHTML = `
+                    <span>${task.text}</span>
+                    <div class="task-actions">
+                        <button onclick="toggleComplete(${index})">${task.completed ? 'Undo' : 'Complete'}</button>
+                        <button onclick="deleteTask(${index})">Delete</button>
+                    </div>
+                `;
+                taskList.appendChild(li);
+            });
+        }
+
+        // Load tasks on page refresh
+        window.onload = renderTasks;
+        
+    </script>
+</body>
+</html>
